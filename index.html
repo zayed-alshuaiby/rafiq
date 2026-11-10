@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>رفيق | Rafiq — Male Reproductive Health Navigator</title>
+<meta name="description" content="رفيق: أداة سرية للتوعية والتوجيه في صحة الرجل الإنجابية. لا تشخّص، ولا تحفظ بياناتك.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
+<style>:root{
+  --bg:#EEF2EF; --surface:#FFFFFF; --ink:#18231F; --muted:#56635E; --line:#D3DDD8;
+  --pine:#123F3A; --pine-2:#1D5A52; --pine-soft:#DCEAE5; --brass:#9C7426;
+  --em:#A3241C; --em-soft:#FBE9E7; --ur:#8A5300; --ur-soft:#FCF0DC;
+  --p2:#1D5A52; --p3:#5B6F2A; --p4:#5F6B67;
+  --radius-l:22px; --radius-s:10px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1816; --surface:#16231F; --ink:#E3ECE8; --muted:#9DB0A9; --line:#2A3D37;
+    --pine:#8FD0C1; --pine-2:#6DB8A8; --pine-soft:#1C3631; --brass:#D9B36A;
+    --em:#FF8A80; --em-soft:#3A1714; --ur:#F2B65C; --ur-soft:#38270C;
+    --p2:#6DB8A8; --p3:#B8CC7A; --p4:#9DB0A9; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1816; --surface:#16231F; --ink:#E3ECE8; --muted:#9DB0A9; --line:#2A3D37;
+  --pine:#8FD0C1; --pine-2:#6DB8A8; --pine-soft:#1C3631; --brass:#D9B36A;
+  --em:#FF8A80; --em-soft:#3A1714; --ur:#F2B65C; --ur-soft:#38270C;
+  --p2:#6DB8A8; --p3:#B8CC7A; --p4:#9DB0A9; color-scheme: dark;
+}
+:root{ box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); }
+*,*::before,*::after{ box-sizing:inherit; }
+html{ scroll-padding-top:env(safe-area-inset-top,0px); }
+body{ margin:0; background:var(--bg); color:var(--ink); font-family:"IBM Plex Sans Arabic","Noto Sans Arabic","Segoe UI",Tahoma,sans-serif; font-size:17px; line-height:1.75; -webkit-font-smoothing:antialiased; }
+body::before{ content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px); background:var(--bg); z-index:10; }
+.wrap{ max-width:680px; margin:0 auto; padding:0 20px; }
+.pilot{ background:var(--pine); color:var(--bg); font-size:13px; padding:7px 20px; text-align:center; }
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .pilot{ color:#0F1816; } }
+.top{ display:flex; justify-content:space-between; align-items:center; padding:18px 0 6px; }
+.logo{ font-weight:700; font-size:22px; color:var(--pine); text-decoration:none; letter-spacing:0; }
+.logo small{ font-weight:400; color:var(--muted); font-size:13px; margin-inline-start:8px; }
+#langBtn{ background:none; border:1px solid var(--line); color:var(--ink); border-radius:999px; padding:5px 14px; font:inherit; font-size:14px; cursor:pointer; }
+main{ outline:none; padding:18px 0 40px; min-height:60vh; }
+h1,h2,h3{ line-height:1.35; margin:0; }
+.btn{ font:inherit; font-weight:600; border-radius:14px; padding:13px 24px; border:1.5px solid transparent; cursor:pointer; }
+.btn.primary{ background:var(--pine); color:var(--surface); }
+.btn.primary:disabled{ opacity:.35; cursor:not-allowed; }
+.btn.ghost{ background:transparent; border-color:var(--line); color:var(--ink); }
+.btn.big{ width:100%; padding:17px; font-size:18px; }
+.btn.small{ padding:5px 14px; font-size:13px; }
+:focus-visible{ outline:3px solid var(--brass); outline-offset:3px; }
+
+/* home */
+.brand-big{ font-size:clamp(64px,18vw,112px); font-weight:700; color:var(--pine); line-height:1; margin:18px 0 6px; }
+.tagline{ font-size:21px; font-weight:600; margin:0 0 10px; }
+.lead{ color:var(--muted); margin:0 0 26px; max-width:34em; }
+.facts{ list-style:none; padding:0; margin:0 0 28px; display:grid; gap:0; border-top:1px solid var(--line); }
+.facts li{ display:flex; justify-content:space-between; gap:16px; padding:13px 0; border-bottom:1px solid var(--line); flex-wrap:wrap; }
+.facts strong{ font-weight:600; } .facts span{ color:var(--muted); font-size:15px; }
+.before{ background:var(--surface); border-radius:var(--radius-l); padding:20px 22px; margin-bottom:22px; }
+.before h2{ font-size:17px; margin-bottom:6px; } .before ul{ margin:0; padding-inline-start:20px; } .before li{ margin:4px 0; }
+.consent{ display:flex; gap:12px; align-items:flex-start; margin:0 0 18px; cursor:pointer; font-size:16px; }
+.consent input{ width:22px; height:22px; margin-top:4px; accent-color:var(--pine); flex:none; }
+
+/* question */
+.progress{ height:5px; background:var(--line); border-radius:9px; overflow:hidden; }
+.progress div{ height:100%; background:var(--pine); transition:width .35s ease; }
+.qmeta{ display:flex; justify-content:space-between; color:var(--muted); font-size:14px; margin:10px 0 26px; }
+.qtext{ font-size:clamp(24px,5.4vw,31px); font-weight:600; margin-bottom:8px; }
+.qalt{ color:var(--muted); font-size:14px; margin:0 0 6px; }
+.added{ color:var(--brass); font-size:13px; margin:0 0 4px; }
+.hint{ color:var(--muted); font-size:14px; margin:14px 0 10px; }
+.opts{ display:grid; gap:10px; }
+.opt{ display:flex; align-items:center; gap:14px; width:100%; text-align:start; font:inherit; background:var(--surface); color:var(--ink); border:1.5px solid var(--line); border-radius:var(--radius-s); padding:15px 16px; cursor:pointer; }
+.opt:hover{ border-color:var(--pine-2); }
+.opt.ex{ background:transparent; }
+.opt.on{ border-color:var(--pine); background:var(--pine-soft); }
+.mark{ width:22px; height:22px; border:2px solid var(--muted); border-radius:50%; flex:none; position:relative; }
+.opts[role=group] .mark{ border-radius:6px; }
+.opt.on .mark{ border-color:var(--pine); background:var(--pine); }
+.opt.on .mark::after{ content:""; position:absolute; inset:5px; background:var(--surface); border-radius:inherit; }
+.opts[role=group] .opt.on .mark::after{ inset:auto; width:6px; height:11px; border:solid var(--surface); border-width:0 2.5px 2.5px 0; background:none; border-radius:0; left:6px; top:2px; transform:rotate(45deg); }
+.nav{ display:flex; gap:10px; margin-top:24px; }
+.nav .primary{ flex:1; }
+
+/* stop screens */
+.stop{ border-radius:var(--radius-l); padding:28px 24px; margin-top:8px; }
+.stop h1{ font-size:clamp(26px,6vw,34px); margin-bottom:14px; }
+.stop.em{ background:var(--em-soft); border:2px solid var(--em); } .stop.em h1{ color:var(--em); }
+.stop.ur{ background:var(--ur-soft); border:2px solid var(--ur); } .stop.ur h1{ color:var(--ur); }
+.stop.in{ background:var(--surface); }
+.stopmsg{ font-size:18px; margin:0 0 12px; }
+.call p{ margin:14px 0 8px; font-weight:600; }
+.nums{ display:flex; gap:10px; flex-wrap:wrap; }
+.num{ display:flex; flex-direction:column; text-decoration:none; color:inherit; background:var(--surface); border-radius:var(--radius-s); padding:10px 18px; min-width:130px; }
+.num b{ font-size:28px; color:var(--em); line-height:1.2; } .num span{ font-size:14px; color:var(--muted); }
+.stopnote{ color:var(--muted); font-size:15px; margin:18px 0; }
+
+/* report */
+.rhead{ border-bottom:2px solid var(--pine); padding-bottom:16px; margin-bottom:22px; }
+.rbrand{ color:var(--pine); font-weight:700; margin:0; }
+.rhead h1{ font-size:30px; margin-bottom:12px; }
+.meta{ display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:8px 18px; margin:0; font-size:14px; }
+.meta dt{ color:var(--muted); } .meta dd{ margin:0; font-weight:600; }
+.ladder h2,.sh,.sum h2,.limits h2{ font-size:18px; margin:0 0 10px; }
+.ladder ol{ list-style:none; margin:0 0 26px; padding:0; display:grid; gap:4px; }
+.rung{ display:grid; grid-template-columns:44px 1fr auto; align-items:center; gap:4px 12px; padding:9px 14px; border-radius:var(--radius-s); color:var(--muted); background:transparent; border:1px dashed var(--line); }
+.rung .pcode{ font-weight:700; font-size:14px; } .rung .pname{ font-weight:600; } .rung .pdesc{ grid-column:2; font-size:14px; }
+.rung .you{ grid-row:1 / span 2; grid-column:3; font-size:13px; font-weight:700; padding:3px 10px; border-radius:999px; background:var(--surface); }
+.rung.here{ border:none; color:var(--surface); }
+.rung.here.P0{ background:var(--em); } .rung.here.P1{ background:var(--ur); } .rung.here.P2{ background:var(--p2); } .rung.here.P3{ background:var(--p3); } .rung.here.P4{ background:var(--p4); }
+.rung.here .you{ color:var(--ink); }
+.sum{ background:var(--surface); border-radius:var(--radius-l); padding:20px 22px; margin-bottom:26px; }
+.sum p{ margin:0 0 12px; } .sum p:last-child{ margin:0; }
+.sigs{ display:grid; gap:12px; margin-bottom:26px; }
+.sig{ background:var(--surface); border-radius:var(--radius-s); padding:16px 18px; border-inline-start:5px solid var(--p4); }
+.sig.P0{ border-color:var(--em); } .sig.P1{ border-color:var(--ur); } .sig.P2{ border-color:var(--p2); } .sig.P3{ border-color:var(--p3); }
+.sig header{ display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-bottom:6px; }
+.sig h3{ font-size:17px; }
+.chip{ font-size:12px; font-weight:700; padding:2px 10px; border-radius:999px; color:var(--surface); background:var(--p4); }
+.chip.P0{ background:var(--em); } .chip.P1{ background:var(--ur); } .chip.P2{ background:var(--p2); } .chip.P3{ background:var(--p3); }
+.sig p{ margin:6px 0; } .trig,.path{ font-size:15px; } .trig span,.path span{ color:var(--muted); }
+.path{ font-weight:600; } .rid{ font-size:12px; color:var(--muted); margin:0 !important; }
+.fixed{ display:grid; gap:10px; margin:0 0 22px; padding:16px 0; border-block:1px solid var(--line); }
+.fixed div{ display:grid; grid-template-columns:130px 1fr; gap:12px; } .fixed dt{ font-weight:600; } .fixed dd{ margin:0; color:var(--muted); }
+.limits p{ color:var(--muted); font-size:15px; }
+.ractions{ display:flex; gap:10px; flex-wrap:wrap; margin:22px 0; } .ractions .primary{ flex:1; }
+.tech summary{ cursor:pointer; color:var(--muted); font-size:14px; margin-bottom:8px; }
+.tech pre{ background:var(--surface); border-radius:var(--radius-s); padding:14px; font-size:12px; overflow-x:auto; line-height:1.5; }
+
+/* docs */
+.doc h1{ font-size:28px; margin:8px 0 8px; }
+.tw{ overflow-x:auto; background:var(--surface); border-radius:var(--radius-s); }
+table{ border-collapse:collapse; width:100%; font-size:14px; min-width:560px; }
+th,td{ text-align:start; padding:9px 12px; border-bottom:1px solid var(--line); vertical-align:top; }
+th{ color:var(--muted); font-weight:600; }
+.mono{ font-family:ui-monospace,Menlo,Consolas,monospace; white-space:nowrap; font-size:13px; }
+.prop{ color:var(--brass); font-weight:700; }
+.small{ font-size:13px; color:var(--muted); margin-top:10px; }
+.score{ font-size:18px; } .score b{ font-size:28px; color:var(--pine); }
+.res{ font-weight:700; font-size:13px; } .res.ok{ color:var(--p2); } .res.bad{ color:var(--em); }
+
+footer{ border-top:1px solid var(--line); padding:18px 0 28px; color:var(--muted); font-size:13px; }
+footer nav{ display:flex; gap:18px; flex-wrap:wrap; margin-bottom:6px; }
+footer a{ color:var(--pine); }
+
+@media (prefers-reduced-motion: reduce){ *{ transition:none !important; } }
+@media print{
+  .pilot,.top,footer,.noprint{ display:none !important; }
+  body{ background:#fff; color:#000; font-size:12pt; }
+  .sum,.sig,.before{ background:#fff; border:1px solid #ccc; }
+  .rung.here{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .sig{ break-inside:avoid; }
+}
+</style>
+</head>
+<body>
+<div class="pilot" id="pilot"></div>
+<div class="wrap">
+  <header class="top"><a class="logo" href="#" aria-label="Rafiq">رفيق<small>Rafiq</small></a><button id="langBtn" type="button">English</button></header>
+  <main id="main" tabindex="-1"></main>
+  <footer id="foot"></footer>
+</div>
+<script>// ================= Rafiq rules engine v1.0 (deterministic) =================
+const RULE_VERSION = "1.0";
+const PR = { P0: 0, P1: 1, P2: 2, P3: 3, P4: 4 };
+
+const PATHWAYS = {
+  EMERGENCY: { ar: "قسم الطوارئ فورًا", en: "Emergency department, now" },
+  URGENT_SAME_DAY: { ar: "تقييم طبي حضوري اليوم", en: "Same-day in-person medical assessment" },
+  PROMPT_EXAM: { ar: "فحص طبي حضوري قريب: رعاية أولية أو مسالك بولية", en: "Prompt in-person exam: primary care or urology" },
+  PRIMARY_CARE: { ar: "طبيب الرعاية الأولية، مع تحويل لمختص عند الحاجة", en: "Primary care; specialist referral when indicated" },
+  URO_ANDRO: { ar: "رعاية أولية أو مسالك بولية/أمراض الذكورة", en: "Primary care or urology/andrology" },
+  URO_ENDO: { ar: "مسالك بولية/أمراض الذكورة أو الغدد الصماء حسب الحالة", en: "Urology/andrology or endocrinology as appropriate" },
+  ONCO_URO: { ar: "متابعة الأورام و/أو مسالك/ذكورة إنجابية", en: "Oncology follow-up and/or reproductive urology/andrology" },
+  PRESCRIBER: { ar: "الطبيب الواصف للدواء أو الرعاية الأولية", en: "Prescribing clinician or primary care" },
+  PREVENTIVE: { ar: "رعاية وقائية ودعم الإقلاع عن التدخين", en: "Preventive care and smoking-cessation support" },
+  OCCUPATIONAL: { ar: "رعاية أولية أو الصحة المهنية", en: "Primary care or occupational health" },
+  SYMPTOM_EVAL: { ar: "رعاية أولية أو مسالك بولية/أمراض الذكورة حسب العرض", en: "Primary care or urology/andrology, by symptom" },
+  DISCHARGE: { ar: "تقييم سريري قريب مع فحص عدوى يحدده الطبيب", en: "Prompt clinical assessment with clinician-directed infection testing" },
+  FAMILY: { ar: "رعاية أولية، ومختص عند الحاجة", en: "Primary care; specialist if indicated" },
+  FERT_EDU: { ar: "معلومات عامة، مع تقييم أبكر إذا وُجدت عوامل خطورة أو مخاوف", en: "General guidance; earlier assessment if risk factors or concerns exist" },
+  FERT_ADVICE: { ar: "استشارة طبية حسب العمر والتاريخ الصحي وعوامل الخطورة", en: "Clinical advice based on age, history and risk factors" },
+  FERT_BOTH: { ar: "تقييم خصوبة للطرفين بالتوازي: مركز خصوبة أو مسالك/ذكورة إنجابية", en: "Concurrent evaluation of both partners: fertility service or reproductive urology/andrology" },
+  TESTS: { ar: "رعاية أولية أو مسالك/ذكورة إنجابية", en: "Primary care or reproductive urology/andrology" },
+  NONE: { ar: "لا يوجد", en: "None" }
+};
+
+// Messages: Arabic = doctor's approved-draft wording (source: Clinical Rules Catalogue v1.0).
+// English = translation added for international reviewers (needs review).
+const RULES = {
+  "CR-001": { q: "Q01", cat: { ar: "الأهلية", en: "Eligibility" }, path: "NONE",
+    ar: "تم تصميم رفيق حاليًا للبالغين بعمر 18 سنة فأكثر. لا يمكننا إكمال هذا التقييم من خلال النسخة الحالية.",
+    en: "Rafiq is currently designed for adults aged 18 and over. We can’t complete this assessment in the current version." },
+  "CR-002": { q: "Q02", cat: { ar: "علامة خطر طارئة", en: "Emergency red flag" }, path: "EMERGENCY",
+    ar: "الألم المفاجئ والشديد في الخصية قد يكون علامة على حالة طبية طارئة، مثل التواء الخصية. توجّه إلى قسم الطوارئ فورًا. لا تنتظر إكمال التقييم داخل التطبيق.",
+    en: "Sudden, severe testicular pain can be a sign of a medical emergency, such as testicular torsion. Go to the emergency department now. Don’t wait to finish the assessment." },
+  "CR-003": { q: "Q03", cat: { ar: "علامة خطر طارئة", en: "Emergency red flag" }, path: "EMERGENCY",
+    ar: "اجتماع ألم الخصية مع الغثيان أو القيء أو ألم البطن قد يشير إلى حالة تحتاج إلى تقييم عاجل في المستشفى. توجّه إلى الطوارئ فورًا.",
+    en: "Testicular pain together with nausea, vomiting or abdominal pain may point to a condition that needs urgent hospital assessment. Go to the emergency department now." },
+  "CR-004": { q: "Q04", cat: { ar: "عرض يحتاج تقييمًا عاجلًا", en: "Urgent symptom" }, path: "URGENT_SAME_DAY",
+    ar: "وجود ألم أو تورم في الخصية مع الحمى يستدعي تقييمًا طبيًا حضوريًا اليوم. إذا كان الألم مفاجئًا وشديدًا أو مصحوبًا بالغثيان أو القيء، فتوجّه إلى الطوارئ فورًا.",
+    en: "Testicular pain or swelling with fever needs an in-person medical assessment today. If the pain is sudden and severe, or comes with nausea or vomiting, go to the emergency department now." },
+  "CR-005": { q: "Q05", cat: { ar: "تغير في الخصية", en: "Testicular change" }, path: "PROMPT_EXAM",
+    ar: "أي كتلة جديدة أو تغير في حجم الخصية أو شكلها يحتاج إلى فحص طبي حضوري. لا يعني ذلك بالضرورة وجود مرض خطير، لكن من المهم معرفة السبب وعدم تجاهل التغير.",
+    en: "Any new lump or change in testicular size or shape needs an in-person medical examination. It doesn’t necessarily mean a serious disease, but it’s important to find the cause and not ignore the change." },
+  "CR-006": { q: "Q07", cat: { ar: "التاريخ الصحي والأيضي", en: "Metabolic and medical history" }, path: "PRIMARY_CARE",
+    ar: "بعض الأمراض المزمنة واضطرابات التمثيل الغذائي والهرمونات قد ترتبط بصحة الرجل الإنجابية. من المهم متابعة الحالة الصحية مع الطبيب ومناقشة أي أعراض أو مخاوف متعلقة بالصحة الإنجابية.",
+    en: "Some chronic, metabolic and hormonal conditions can be linked to male reproductive health. Keep up follow-up with your doctor and discuss any reproductive symptoms or concerns." },
+  "CR-007": { q: "Q08", cat: { ar: "تاريخ بولي وتناسلي سابق", en: "Previous genitourinary history" }, path: "URO_ANDRO",
+    ar: "بعض الحالات السابقة التي تصيب الخصيتين أو الجهاز التناسلي قد تكون مهمة عند تقييم الصحة الإنجابية. يُنصح بمراجعة هذه المعلومات مع طبيب، خصوصًا إذا كانت لديك أعراض حالية أو قلق متعلق بالإنجاب.",
+    en: "Some past conditions affecting the testicles or reproductive system can matter when assessing reproductive health. Review this history with a doctor, especially if you have current symptoms or fertility concerns." },
+  "CR-008": { q: "Q09", cat: { ar: "التعرض لهرمونات خارجية", en: "Hormone exposure" }, path: "URO_ENDO",
+    ar: "قد يؤثر استخدام التستوستيرون الخارجي أو المنشطات البنائية في إنتاج الحيوانات المنوية. من المهم مناقشة الاستخدام الحالي أو السابق مع طبيب مختص، خاصة إذا كنت مهتمًا بالإنجاب. لا توقف أي دواء موصوف دون إشراف طبي.",
+    en: "External testosterone or anabolic steroids can affect sperm production. Discuss current or past use with a specialist, especially if you plan to have children. Don’t stop any prescribed medicine without medical supervision." },
+  "CR-009": { q: "Q09", cat: { ar: "علاجات سابقة مؤثرة", en: "Gonadotoxic treatment" }, path: "ONCO_URO",
+    ar: "بعض علاجات السرطان، مثل العلاج الكيميائي أو الإشعاعي، قد تؤثر في الوظيفة الإنجابية بدرجات تختلف حسب نوع العلاج والجرعة والمنطقة المعالجة. يمكن للطبيب المختص تقييم وضعك وتوضيح الخيارات المناسبة.",
+    en: "Some cancer treatments, such as chemotherapy or radiotherapy, can affect reproductive function to varying degrees depending on the treatment, dose and area treated. A specialist can assess your situation and explain your options." },
+  "CR-010": { q: "Q09", cat: { ar: "أدوية طويلة الأمد", en: "Long-term medication" }, path: "PRESCRIBER",
+    ar: "بعض الأدوية قد تؤثر في الوظيفة الجنسية أو الهرمونية أو الإنجابية، بينما لا يؤثر كثير منها. إذا كانت لديك مخاوف، ناقش أسماء أدويتك وجرعاتها مع الطبيب دون إيقاف أي دواء من نفسك.",
+    en: "Some medicines can affect sexual, hormonal or reproductive function, while many don’t. If you have concerns, discuss your medicines and doses with your doctor, without stopping any on your own." },
+  "CR-011": { q: "Q10", cat: { ar: "نمط الحياة", en: "Lifestyle" }, path: "PREVENTIVE",
+    ar: "يرتبط التدخين واستخدام منتجات التبغ بتأثيرات سلبية محتملة على الصحة العامة وبعض مؤشرات الصحة الإنجابية. تقليل الاستخدام والإقلاع عنه خطوة مفيدة لصحتك.",
+    en: "Smoking and tobacco use are linked to possible harmful effects on general health and some reproductive health markers. Cutting down and quitting is a helpful step for your health." },
+  "CR-012": { q: "Q11", cat: { ar: "التعرض المهني والبيئي", en: "Occupational exposure" }, path: "OCCUPATIONAL",
+    ar: "بعض التعرضات المهنية، مثل الحرارة المرتفعة أو بعض المواد الكيميائية، قد تكون ذات صلة بالصحة الإنجابية. يُنصح بمراجعة إجراءات السلامة المهنية ومناقشة التعرض المتكرر مع الطبيب عند وجود مخاوف.",
+    en: "Some workplace exposures, such as high heat or certain chemicals, may be relevant to reproductive health. Review workplace safety measures and discuss repeated exposure with a doctor if you have concerns." },
+  "CR-013": { q: "Q12", cat: { ar: "أعراض حالية", en: "Current symptoms" }, path: "SYMPTOM_EVAL",
+    ar: "الأعراض التي ذكرتها تستحق تقييمًا طبيًا لمعرفة السبب. قد ترتبط بعض هذه الأعراض بأسباب بولية أو هرمونية أو جنسية مختلفة، ولا يمكن تحديد السبب من خلال الاستبيان وحده.",
+    en: "The symptoms you reported deserve a medical assessment to find the cause. They can have different urinary, hormonal or sexual causes, which a questionnaire alone can’t determine." },
+  "CR-014": { q: "Q13", cat: { ar: "التاريخ العائلي", en: "Family history" }, path: "FAMILY",
+    ar: "وجود تاريخ عائلي لبعض الأمراض قد يكون مهمًا عند تقييم صحتك. لا يعني ذلك أنك مصاب بالمرض نفسه، لكن من المفيد إخبار الطبيب بهذه المعلومات عند الحاجة.",
+    en: "A family history of some conditions can matter when assessing your health. It doesn’t mean you have the same condition, but it’s useful to tell your doctor." },
+  "CR-015": { q: "Q14", cat: { ar: "محاولات الإنجاب", en: "Conception attempts" }, path: "FERT_BOTH",
+    ar: "تأخر حدوث الحمل قد تكون له أسباب مرتبطة بالرجل أو المرأة أو كليهما. عند الحاجة إلى تقييم الخصوبة، يُفضَّل تقييم الطرفين بالتوازي للوصول إلى فهم أدق للأسباب.",
+    en: "A delay in pregnancy can have causes related to the man, the woman or both. When fertility assessment is needed, evaluating both partners in parallel gives a clearer picture." },
+  "CR-016": { q: "Q15", cat: { ar: "فحوصات سابقة", en: "Previous investigations" }, path: "TESTS",
+    ar: "الفحوصات السابقة قد تساعد الطبيب في فهم حالتك. إذا كانت لديك نتائج، احتفظ بها وشاركها مع الطبيب المختص. ولا يمكن الحكم على الخصوبة من اسم الفحص أو من نتيجة واحدة دون تفسير طبي مناسب.",
+    en: "Previous tests can help a doctor understand your situation. Keep any results and share them with the specialist. Fertility can’t be judged from a test’s name or a single result without proper medical interpretation." }
+};
+
+// Option-level priority mapping. "proposed" = chosen by the technical team where the
+// catalogue says "P2 or P3 depending on context" — needs medical confirmation.
+const MAP = {
+  Q07: { diabetes: "P2", hypertension: "P3", obesity: "P3", thyroid: "P2", hormonal: "P2", cancer: "P2", other_chronic: "P3" },
+  Q13: { testicular_cancer: "P3", inherited: "P2" }
+};
+const PROPOSED = ["CR-006", "CR-012", "CR-014", "CR-015", "CR-016"];
+const arr = v => Array.isArray(v) ? v : [];
+
+function evaluate(a) {
+  const signals = [];
+  const add = (id, trig, prio, extra = {}) => signals.push({
+    rule_id: id, question_id: RULES[id].q, triggered_by: trig, priority: prio,
+    category: RULES[id].cat.en, message_id: "MSG-" + id, care_pathway: extra.path || RULES[id].path, ...extra
+  });
+
+  if (a.Q01 === "no") {
+    add("CR-001", ["under_18"], "P4");
+    return pack(signals, "ineligible");
+  }
+  if (a.Q02 === "yes") add("CR-002", ["sudden_severe_pain"], "P0");
+  if (a.Q03 === "yes") add("CR-003", ["pain_with_nausea_vomiting_abdominal"], "P0");
+  if (a.Q04 === "yes") add("CR-004", ["pain_swelling_with_fever"], "P1");
+  if (a.Q05 === "yes") add("CR-005", ["new_lump_or_change"], "P2");
+
+  const q07 = arr(a.Q07).filter(v => MAP.Q07[v]);
+  if (q07.length) add("CR-006", q07, q07.some(v => MAP.Q07[v] === "P2") ? "P2" : "P3");
+
+  const q08 = arr(a.Q08).filter(v => !["dont_know", "none"].includes(v));
+  if (q08.length) add("CR-007", q08, "P2");
+
+  const q09 = arr(a.Q09);
+  const hormone = q09.filter(v => ["testosterone", "anabolic_steroids"].includes(v));
+  if (hormone.length) add("CR-008", hormone, "P2");
+  const gonado = q09.filter(v => ["chemotherapy", "radiotherapy"].includes(v));
+  if (gonado.length) add("CR-009", gonado, "P2");
+  if (q09.includes("long_term_meds")) add("CR-010", ["long_term_meds"], "P3");
+
+  if (a.Q10 && a.Q10 !== "none") add("CR-011", [a.Q10], "P3");
+
+  const q12 = arr(a.Q12).filter(v => !["none", "prefer_not"].includes(v));
+  const q11 = arr(a.Q11).filter(v => !["none", "dont_know"].includes(v));
+  if (q11.length) add("CR-012", q11, q12.length ? "P2" : "P3");
+
+  if (q12.length) add("CR-013", q12, "P2", q12.includes("discharge") ? { path: "DISCHARGE" } : {});
+
+  const q13 = arr(a.Q13).filter(v => MAP.Q13[v]);
+  if (q13.length) add("CR-014", q13, q13.some(v => MAP.Q13[v] === "P2") ? "P2" : "P3");
+
+  if (a.Q14 === "yes") {
+    const d = a.Q14A || "unknown";
+    const by = { lt6: ["P3", "FERT_EDU"], "6to12": ["P2", "FERT_ADVICE"], gt12: ["P2", "FERT_BOTH"], unknown: ["P2", "FERT_ADVICE"] }[d];
+    add("CR-015", ["tried_to_conceive", "duration_" + d], by[0], { path: by[1] });
+  }
+
+  const q15 = arr(a.Q15).filter(v => !["none", "dont_remember"].includes(v));
+  if (q15.length) {
+    const abnormal = q15.includes("semen_analysis") && a.Q15A === "yes";
+    add("CR-016", abnormal ? [...q15, "abnormal_semen_reported"] : q15, abnormal ? "P2" : "P3");
+  }
+  return pack(signals);
+}
+
+function pack(signals, forced) {
+  signals.sort((x, y) => PR[x.priority] - PR[y.priority]);
+  const highest = signals.length ? signals[0].priority : null;
+  let status = forced || "completed";
+  if (!forced && highest === "P0") status = "stopped_emergency";
+  else if (!forced && highest === "P1") status = "stopped_urgent";
+  return {
+    status, urgent_flag: highest === "P0" || highest === "P1", highest_priority: highest,
+    signals, diagnosis: null, fertility_score: null, clinical_rule_version: RULE_VERSION
+  };
+}
+
+// ---------------- Validation test cases (catalogue section 10 + negative cases) ----------------
+const has = (r, id) => r.signals.some(s => s.rule_id === id);
+const base = { Q01: "yes", Q02: "no", Q03: "na", Q04: "no", Q05: "no" };
+const TESTS = [
+  ["TC-001", "Q01 = No", { Q01: "no" }, r => r.status === "ineligible" && r.signals.length === 1, "Adult assessment blocked"],
+  ["TC-002", "Q02 = Yes", { ...base, Q02: "yes" }, r => r.highest_priority === "P0" && r.status === "stopped_emergency", "P0 emergency"],
+  ["TC-003", "Q03 = Yes with testicular pain", { ...base, Q03: "yes" }, r => r.highest_priority === "P0", "P0 emergency"],
+  ["TC-004", "Q04 = Yes, no P0 symptoms", { ...base, Q04: "yes" }, r => r.highest_priority === "P1" && r.status === "stopped_urgent", "P1 same-day assessment"],
+  ["TC-005", "Q05 = Yes, no emergency", { ...base, Q05: "yes" }, r => r.highest_priority === "P2" && has(r, "CR-005"), "P2 prompt examination"],
+  ["TC-006", "Q07 includes diabetes", { ...base, Q07: ["diabetes"] }, r => has(r, "CR-006"), "Metabolic signal"],
+  ["TC-007", "Q08 includes cryptorchidism", { ...base, Q08: ["cryptorchidism"] }, r => has(r, "CR-007"), "Urological history signal"],
+  ["TC-008", "Q09 includes testosterone", { ...base, Q09: ["testosterone"] }, r => has(r, "CR-008"), "Medication/exposure signal"],
+  ["TC-009", "Q09 includes chemotherapy", { ...base, Q09: ["chemotherapy"] }, r => has(r, "CR-009"), "Gonadotoxic treatment signal"],
+  ["TC-010", "Q10 includes smoking", { ...base, Q10: "cigarettes" }, r => has(r, "CR-011") && r.highest_priority === "P3", "Lifestyle signal"],
+  ["TC-011", "Q11 includes pesticides", { ...base, Q11: ["pesticides"] }, r => has(r, "CR-012"), "Occupational exposure signal"],
+  ["TC-012", "Q12 includes urethral discharge", { ...base, Q12: ["discharge"] }, r => has(r, "CR-013") && r.signals[0].care_pathway === "DISCHARGE", "Clinical evaluation signal"],
+  ["TC-013", "Q13 testicular cancer family history", { ...base, Q13: ["testicular_cancer"] }, r => has(r, "CR-014"), "Family-history signal"],
+  ["TC-014", "Q14 more than 12 months", { ...base, Q14: "yes", Q14A: "gt12" }, r => has(r, "CR-015") && r.signals[0].care_pathway === "FERT_BOTH", "Fertility evaluation guidance"],
+  ["TC-015", "Q15 abnormal semen analysis", { ...base, Q15: ["semen_analysis"], Q15A: "yes" }, r => has(r, "CR-016") && r.signals[0].priority === "P2", "Professional interpretation guidance"],
+  ["TC-016", "No risk signals", { ...base, Q07: ["none"], Q08: ["none"], Q09: ["none"], Q10: "none", Q11: ["none"], Q12: ["none"], Q13: ["none"], Q14: "no", Q15: ["none"] }, r => r.signals.length === 0 && r.status === "completed", "No-signal educational report"],
+  ["TC-017", "Q02 = Yes and diabetes", { ...base, Q02: "yes", Q07: ["diabetes"] }, r => r.highest_priority === "P0" && r.status === "stopped_emergency", "P0 takes precedence"],
+  ["TC-018", "Q05 = Yes and smoking", { ...base, Q05: "yes", Q10: "shisha" }, r => has(r, "CR-005") && has(r, "CR-011") && r.highest_priority === "P2", "P2 and P3 signals retained"],
+  ["TC-019", "Q04 = Yes and Q02 = Yes", { ...base, Q02: "yes", Q04: "yes" }, r => r.highest_priority === "P0", "P0 takes precedence"],
+  ["TC-020", "Q12 sexual symptoms only", { ...base, Q12: ["erectile"] }, r => has(r, "CR-013") && r.diagnosis === null && r.fertility_score === null, "Clinical evaluation, not infertility diagnosis"],
+  ["NEG-01", "Q07 = I don’t know", { ...base, Q07: ["dont_know"] }, r => !has(r, "CR-006"), "No metabolic signal"],
+  ["NEG-02", "Q08 = None", { ...base, Q08: ["none"] }, r => !has(r, "CR-007"), "No history signal"],
+  ["NEG-03", "Q09 = Prefer not to answer", { ...base, Q09: ["prefer_not"] }, r => r.signals.length === 0, "No medication signal"],
+  ["NEG-04", "Q10 = Does not use", { ...base, Q10: "none" }, r => !has(r, "CR-011"), "No lifestyle signal"],
+  ["NEG-05", "Q03 = Not applicable", { ...base, Q03: "na" }, r => r.highest_priority !== "P0", "No emergency"],
+  ["NEG-06", "Q14 = No", { ...base, Q14: "no" }, r => !has(r, "CR-015"), "No fertility signal"],
+  ["NEG-07", "Semen analysis, result not abnormal", { ...base, Q15: ["semen_analysis"], Q15A: "no" }, r => has(r, "CR-016") && r.signals[0].priority === "P3", "Recorded as P3 only"],
+  ["NEG-08", "Q12 = Prefer not to answer", { ...base, Q12: ["prefer_not"] }, r => !has(r, "CR-013"), "No symptom signal"]
+];
+
+if (typeof module !== "undefined") module.exports = { evaluate, TESTS, RULES };
+
+// ================= Rafiq UI =================
+const O = (v, ar, en, ex) => ({ v, ar, en, ex: !!ex });
+const YN = [O("yes", "نعم", "Yes"), O("no", "لا", "No")];
+const QUESTIONS = [
+  { id: "Q01", s: 1, t: "single", ar: "هل عمرك 18 سنة أو أكثر؟", en: "Are you 18 years of age or older?", o: YN },
+  { id: "Q02", s: 1, t: "single", ar: "هل تعاني الآن من ألم مفاجئ وشديد في إحدى الخصيتين أو كلتيهما؟", en: "Are you currently experiencing sudden, severe pain in one or both testicles?", o: YN },
+  { id: "Q03", s: 1, t: "single", ar: "هل يصاحب ألم الخصية غثيان أو قيء أو ألم في البطن؟", en: "Is your testicular pain accompanied by nausea, vomiting, or abdominal pain?", o: [...YN, O("na", "لا ينطبق، ليس لدي ألم في الخصية", "Not applicable, I have no testicular pain")] },
+  { id: "Q04", s: 1, t: "single", ar: "هل لديك حاليًا ألم أو تورم في الخصية مع حمى أو شعور شديد بالمرض؟", en: "Do you currently have testicular pain or swelling with fever or feeling severely unwell?", o: YN },
+  { id: "Q05", s: 1, t: "single", ar: "هل لاحظت كتلة جديدة أو تغيرًا في حجم الخصية أو شكلها؟", en: "Have you noticed a new lump or a change in the size or shape of either testicle?", o: YN },
+  { id: "Q07", s: 2, t: "multi", ar: "هل شُخّصت لديك أي من الحالات التالية؟", en: "Have you been diagnosed with any of the following?", o: [
+    O("diabetes", "السكري", "Diabetes mellitus"), O("hypertension", "ارتفاع ضغط الدم", "Hypertension"), O("obesity", "السمنة", "Obesity"),
+    O("thyroid", "اضطراب الغدة الدرقية", "Thyroid disorder"), O("hormonal", "اضطرابات هرمونية أو أمراض الغدة النخامية", "Hormonal or pituitary disorder"),
+    O("cancer", "السرطان", "Cancer"), O("other_chronic", "مرض مزمن آخر", "Other chronic disease"),
+    O("dont_know", "لا أعلم", "I don’t know", 1), O("none", "لا شيء مما سبق", "None of the above", 1)] },
+  { id: "Q08", s: 2, t: "multi", ar: "هل سبق أن عانيت من أي من المشكلات التالية؟", en: "Have you ever had any of the following?", o: [
+    O("cryptorchidism", "الخصية المعلّقة", "Undescended testicle"), O("torsion", "التواء الخصية", "Testicular torsion"),
+    O("trauma", "إصابة الخصية", "Testicular injury"), O("orchitis", "التهاب الخصية أو البربخ", "Orchitis or epididymitis"),
+    O("mumps_orchitis", "النكاف المصحوب بالتهاب الخصية", "Mumps-associated orchitis"), O("varicocele", "دوالي الخصية المشخّصة طبيًا", "Medically diagnosed varicocele"),
+    O("sti", "عدوى منقولة جنسيًا", "Sexually transmitted infection"), O("surgery", "جراحة في الخصية أو الجهاز التناسلي", "Testicular or reproductive surgery"),
+    O("dont_know", "لا أعلم", "I don’t know", 1), O("none", "لا شيء مما سبق", "None of the above", 1)] },
+  { id: "Q09", s: 2, t: "multi", ar: "هل تستخدم حاليًا أو استخدمت سابقًا أيًا مما يلي؟", en: "Are you using, or have you used, any of the following?", o: [
+    O("testosterone", "التستوستيرون", "Testosterone therapy"), O("anabolic_steroids", "المنشطات البنائية", "Anabolic steroids"),
+    O("chemotherapy", "العلاج الكيميائي", "Chemotherapy"), O("radiotherapy", "العلاج الإشعاعي", "Radiotherapy"),
+    O("long_term_meds", "أدوية طويلة الأمد", "Long-term medication"), O("none", "لا شيء مما سبق", "None of the above", 1),
+    O("dont_know", "لا أعلم", "I don’t know", 1), O("prefer_not", "أفضّل عدم الإجابة", "Prefer not to answer", 1)] },
+  { id: "Q10", s: 2, t: "single", ar: "هل تستخدم أيًا من منتجات التبغ أو التدخين؟", en: "Do you use any tobacco or smoking products?", o: [
+    O("cigarettes", "السجائر", "Cigarettes"), O("shisha", "الشيشة", "Waterpipe / shisha"), O("vaping", "السجائر الإلكترونية", "E-cigarettes / vaping"),
+    O("multiple", "أكثر من نوع", "More than one product"), O("none", "لا أستخدم", "I don’t use any")] },
+  { id: "Q11", s: 2, t: "multi", ar: "هل تتعرض في عملك أو بيئتك بصورة متكررة لأي مما يلي؟", en: "Are you regularly exposed to any of the following at work or in your environment?", o: [
+    O("heat", "حرارة مهنية مرتفعة", "High occupational heat"), O("pesticides", "مبيدات أو مذيبات كيميائية", "Pesticides or chemical solvents"),
+    O("heavy_metals", "معادن ثقيلة أو مواد سامة", "Heavy metals or toxic substances"), O("radiation", "إشعاع", "Radiation"),
+    O("none", "لا يوجد تعرض معروف", "No known exposure", 1), O("dont_know", "لا أعلم", "I don’t know", 1)] },
+  { id: "Q12", s: 2, t: "multi", ar: "هل تعاني حاليًا من أي من الأعراض التالية؟", en: "Are you currently experiencing any of these symptoms?", o: [
+    O("low_libido", "ضعف الرغبة الجنسية", "Low sexual desire"), O("erectile", "صعوبة الانتصاب", "Erectile difficulty"),
+    O("ejaculation", "مشكلة في القذف", "Ejaculation problem"), O("dysuria", "حرقة أو ألم أثناء التبول", "Burning or pain when urinating"),
+    O("discharge", "إفرازات غير طبيعية من مجرى البول", "Abnormal urethral discharge"),
+    O("none", "لا أعاني من هذه الأعراض", "I don’t have these symptoms", 1), O("prefer_not", "أفضّل عدم الإجابة", "Prefer not to answer", 1)] },
+  { id: "Q13", s: 2, t: "multi", ar: "هل يوجد في عائلتك تاريخ مرضي معروف لأي مما يلي؟", en: "Is there a known family history of any of the following?", o: [
+    O("testicular_cancer", "سرطان الخصية", "Testicular cancer"), O("inherited", "مرض وراثي معروف يؤثر على الجهاز التناسلي أو الهرمونات", "Known inherited reproductive or hormonal disorder"),
+    O("none", "لا يوجد", "None", 1), O("dont_know", "لا أعلم", "I don’t know", 1), O("prefer_not", "أفضّل عدم الإجابة", "Prefer not to answer", 1)] },
+  { id: "Q06", s: 3, t: "single", ar: "ما الهدف من استخدامك لرفيق؟", en: "What is your main reason for using Rafiq?", o: [
+    O("awareness", "التوعية الوقائية", "Preventive awareness"), O("future", "الاستعداد للإنجاب مستقبلًا", "Preparing for future parenthood"),
+    O("trying", "أحاول الإنجاب حاليًا", "Currently trying to conceive"), O("concern", "لدي قلق متعلق بالصحة الإنجابية", "I have a reproductive health concern"),
+    O("prefer_not", "لا أرغب في الإجابة", "Prefer not to answer")] },
+  { id: "Q14", s: 3, t: "single", ar: "هل سبق أن حاولت الإنجاب دون حدوث حمل؟", en: "Have you ever tried to conceive without a pregnancy occurring?", o: [
+    ...YN, O("na", "لا ينطبق", "Not applicable"), O("prefer_not", "أفضّل عدم الإجابة", "Prefer not to answer")] },
+  { id: "Q14A", s: 3, t: "single", added: 1, show: a => a.Q14 === "yes", ar: "منذ متى وأنتما تحاولان الإنجاب؟", en: "For how long have you been trying to conceive?", o: [
+    O("lt6", "أقل من 6 أشهر", "Less than 6 months"), O("6to12", "من 6 إلى 12 شهرًا", "6 to 12 months"),
+    O("gt12", "أكثر من 12 شهرًا", "More than 12 months"), O("unknown", "لا أعلم", "I don’t know")] },
+  { id: "Q15", s: 3, t: "multi", ar: "هل سبق أن أجريت فحوصات متعلقة بالصحة الإنجابية؟", en: "Have you had any reproductive health investigations?", o: [
+    O("semen_analysis", "تحليل السائل المنوي", "Semen analysis"), O("hormonal_tests", "تحاليل هرمونية", "Hormonal tests"),
+    O("sti_test", "فحص عدوى تناسلية", "STI testing"), O("ultrasound", "تصوير بالموجات فوق الصوتية للخصيتين", "Testicular ultrasound"),
+    O("uro_assessment", "تقييم لدى طبيب مسالك أو ذكورة", "Urology or andrology assessment"),
+    O("none", "لم أُجرِ أي فحوصات", "I haven’t had any", 1), O("dont_remember", "لا أتذكر", "I don’t remember", 1)] },
+  { id: "Q15A", s: 3, t: "single", added: 1, show: a => (a.Q15 || []).includes("semen_analysis"), ar: "هل أخبرك الطبيب أن نتيجة تحليل السائل المنوي كانت غير طبيعية؟", en: "Did a doctor tell you your semen analysis result was abnormal?", o: [
+    O("yes", "نعم", "Yes"), O("no", "لا", "No"), O("unknown", "لا أعلم", "I don’t know")] }
+];
+
+const SECTIONS = {
+  1: { ar: "السلامة أولًا", en: "Safety first" },
+  2: { ar: "تاريخك الصحي ونمط حياتك", en: "Your health and lifestyle" },
+  3: { ar: "الإنجاب والفحوصات", en: "Fertility and tests" }
+};
+const EXTRA_LABELS = {
+  under_18: { ar: "العمر أقل من 18", en: "Under 18" },
+  sudden_severe_pain: { ar: "ألم مفاجئ وشديد في الخصية", en: "Sudden severe testicular pain" },
+  pain_with_nausea_vomiting_abdominal: { ar: "ألم الخصية مع غثيان أو قيء أو ألم بطن", en: "Testicular pain with nausea, vomiting or abdominal pain" },
+  pain_swelling_with_fever: { ar: "ألم أو تورم في الخصية مع حمى", en: "Testicular pain or swelling with fever" },
+  new_lump_or_change: { ar: "كتلة جديدة أو تغير في الخصية", en: "New lump or testicular change" },
+  tried_to_conceive: { ar: "محاولة إنجاب دون حدوث حمل", en: "Tried to conceive without pregnancy" },
+  duration_lt6: { ar: "المدة أقل من 6 أشهر", en: "Under 6 months" },
+  duration_6to12: { ar: "المدة 6 إلى 12 شهرًا", en: "6 to 12 months" },
+  duration_gt12: { ar: "المدة أكثر من 12 شهرًا", en: "Over 12 months" },
+  duration_unknown: { ar: "المدة غير معروفة", en: "Duration unknown" },
+  abnormal_semen_reported: { ar: "نتيجة تحليل سائل منوي غير طبيعية حسب الطبيب", en: "Abnormal semen analysis reported" }
+};
+
+const T = {
+  ar: {
+    pilot: "نسخة تجريبية لمسابقة Future Health 2026، قيد المراجعة الطبية. ليست أداة تشخيص.",
+    tagline: "رفيقك الأول لفهم صحتك الإنجابية",
+    lead: "أسئلة قصيرة وسرية تساعدك تعرف هل توجد علامات تستحق الانتباه، وأين تتجه بعدها: طوارئ، أو طبيب، أو نصائح وقائية.",
+    facts: [["حوالي 5 دقائق", "15 سؤالًا تقريبًا"], ["بدون اسم أو تسجيل", "لا نطلب أي بيانات تعرّف بك"], ["إجاباتك تبقى على جهازك", "لا نحفظها ولا نرسلها لأي جهة"]],
+    notTitle: "قبل أن تبدأ",
+    nots: ["رفيق لا يشخّص أي مرض، ولا يعطيك نسبة خصوبة.", "إذا كان لديك ألم شديد ومفاجئ الآن، توجّه إلى الطوارئ مباشرة.", "النتيجة توجيه أولي، والقرار الطبي للطبيب."],
+    consent: "فهمت أن رفيق أداة توعية وتوجيه، وليس تشخيصًا طبيًا.",
+    start: "ابدأ التقييم", next: "التالي", back: "رجوع", pickAll: "اختر كل ما ينطبق", pickOne: "اختر إجابة واحدة",
+    of: "من", restart: "ابدأ تقييمًا جديدًا", lang: "English",
+    emTitle: "توجّه إلى أقرب قسم طوارئ الآن",
+    emCall: "إذا احتجت إسعافًا، اتصل برقم الطوارئ في بلدك:", emNums: [["السعودية", "997"], ["الإمارات", "998"]],
+    emNote: "توقّف التقييم هنا عمدًا. صحتك الآن أهم من إكمال الأسئلة.",
+    urTitle: "تحتاج إلى تقييم طبي حضوري اليوم",
+    urNote: "توقّف التقييم هنا لأن الفحص الحضوري هو الخطوة الصحيحة الآن.",
+    inTitle: "هذا التقييم للبالغين",
+    rTitle: "ملخص التقييم الصحي", rDate: "تاريخ التقييم", rVer: "نسخة القواعد السريرية", rId: "رقم التقييم", rStatus: "حالة التقييم", rDone: "مكتمل",
+    ladder: "مستوى الرعاية المقترح", yourLevel: "مستواك",
+    levels: { P0: ["طارئ", "الطوارئ فورًا"], P1: ["عاجل", "تقييم حضوري اليوم"], P2: ["تقييم سريري", "موعد مع طبيب"], P3: ["إرشاد وقائي", "توعية ونصائح"], P4: ["معلومات", "محتوى تثقيفي"] },
+    signals: "ما ظهر في إجاباتك", basedOn: "بناءً على إجابتك", pathway: "الوجهة المقترحة",
+    summaryA: "تتضمن إجاباتك عوامل صحية تستحق الاهتمام والمتابعة، منها: ",
+    summaryB: ". لا تعني هذه العوامل أنك تعاني من العقم، لكنها معلومات مهمة عند متابعة صحتك الإنجابية.",
+    nextStep: "الخطوة التالية",
+    nextP2: "ناقش هذه العوامل مع طبيب الرعاية الأولية، واطلب تقييمًا متخصصًا إذا كانت لديك مخاوف متعلقة بالإنجاب.",
+    nextP3: "هذه إرشادات وقائية لا تشير إلى مرض. يمكنك مناقشتها مع طبيبك في زيارتك القادمة.",
+    noSignal: "لم تظهر عوامل خطورة محددة ضمن الإجابات التي أدخلتها. هذا لا يؤكد أن الخصوبة طبيعية، ولا يستبعد وجود مشكلة صحية. إذا كانت لديك أعراض أو مخاوف، يمكنك استشارة الطبيب.",
+    diag: "التشخيص", diagV: "لا يوجد. رفيق لا يشخّص الأمراض.", score: "نسبة الخصوبة", scoreV: "لا تُحسب. لا توجد أداة موثوقة تتنبأ بالخصوبة من استبيان.",
+    limits: "حدود هذا التقييم",
+    limitsV: "هذا التقييم مبني على إجاباتك فقط، وهو أداة توعية وتوجيه أولي وليس فحصًا طبيًا أو فحصًا للخصوبة، ولا يغني عن زيارة الطبيب. إذا تغيرت أعراضك أو ظهرت أعراض جديدة، اطلب المساعدة الطبية.",
+    print: "حفظ أو طباعة الملخص", tech: "البيانات التقنية (JSON)", copy: "نسخ",
+    footRules: "القواعد السريرية", footTests: "اختبارات التحقق", footHome: "الصفحة الرئيسية",
+    footNote: "رفيق، نسخة القواعد 1.0. مسودة للمراجعة الطبية.",
+    rulesTitle: "كتالوج القواعد السريرية", rulesLead: "كل قاعدة ثابتة وقابلة للاختبار، ولا يتدخل الذكاء الاصطناعي في أي قرار. الحالة: بانتظار الاعتماد الطبي.",
+    proposedNote: "قرار مقترح من الفريق التقني لأن الكتالوج يترك الأولوية حسب السياق. يحتاج تأكيد الطبيب.",
+    testsTitle: "اختبارات التحقق السريرية", testsLead: "تُشغَّل هذه الاختبارات الآن داخل متصفحك على نفس محرك القواعد الذي يستخدمه التقييم.",
+    passed: "نجح", failed: "فشل", added: "سؤال متابعة مضاف، يحتاج اعتماد الطبيب"
+  },
+  en: {
+    pilot: "Prototype for Future Health 2026, under medical review. Not a diagnostic tool.",
+    tagline: "A first companion for understanding your reproductive health",
+    lead: "Short, private questions that show whether anything deserves attention, and where to go next: emergency care, a doctor, or preventive advice.",
+    facts: [["About 5 minutes", "Around 15 questions"], ["No name, no sign-up", "We never ask for identifying data"], ["Answers stay on your device", "Nothing is stored or sent anywhere"]],
+    notTitle: "Before you start",
+    nots: ["Rafiq doesn’t diagnose any condition or give a fertility score.", "If you have sudden severe pain right now, go straight to the emergency department.", "The result is initial guidance; medical decisions belong to your doctor."],
+    consent: "I understand Rafiq is an awareness and navigation tool, not a medical diagnosis.",
+    start: "Start the assessment", next: "Next", back: "Back", pickAll: "Choose all that apply", pickOne: "Choose one answer",
+    of: "of", restart: "Start a new assessment", lang: "العربية",
+    emTitle: "Go to the nearest emergency department now",
+    emCall: "If you need an ambulance, call your local emergency number:", emNums: [["Saudi Arabia", "997"], ["UAE", "998"]],
+    emNote: "The assessment stopped here on purpose. Your health right now matters more than finishing the questions.",
+    urTitle: "You need an in-person medical assessment today",
+    urNote: "The assessment stopped here because an in-person exam is the right next step.",
+    inTitle: "This assessment is for adults",
+    rTitle: "Health assessment summary", rDate: "Assessment date", rVer: "Clinical rules version", rId: "Assessment ID", rStatus: "Status", rDone: "Completed",
+    ladder: "Suggested level of care", yourLevel: "Your level",
+    levels: { P0: ["Emergency", "Emergency care now"], P1: ["Urgent", "Seen in person today"], P2: ["Clinical evaluation", "Doctor’s appointment"], P3: ["Preventive", "Advice and awareness"], P4: ["Information", "Educational content"] },
+    signals: "What your answers showed", basedOn: "Based on your answer", pathway: "Suggested destination",
+    summaryA: "Your answers include health factors worth attention and follow-up, including: ",
+    summaryB: ". These factors don’t mean you are infertile, but they matter when looking after your reproductive health.",
+    nextStep: "Next step",
+    nextP2: "Discuss these factors with a primary care doctor, and ask for a specialist assessment if you have fertility concerns.",
+    nextP3: "This is preventive guidance and doesn’t indicate a disease. You can raise it with your doctor at your next visit.",
+    noSignal: "No specific risk factors appeared in your answers. This doesn’t confirm normal fertility, and doesn’t rule out a health problem. If you have symptoms or concerns, you can see a doctor.",
+    diag: "Diagnosis", diagV: "None. Rafiq doesn’t diagnose conditions.", score: "Fertility score", scoreV: "Not calculated. No questionnaire can reliably predict fertility.",
+    limits: "Limits of this assessment",
+    limitsV: "This assessment is based only on your answers. It is an awareness and initial navigation tool, not a medical or fertility test, and doesn’t replace seeing a doctor. If your symptoms change or new ones appear, seek medical help.",
+    print: "Save or print summary", tech: "Technical data (JSON)", copy: "Copy",
+    footRules: "Clinical rules", footTests: "Validation tests", footHome: "Home",
+    footNote: "Rafiq, rules version 1.0. Draft for medical review.",
+    rulesTitle: "Clinical rules catalogue", rulesLead: "Every rule is fixed and testable; no AI takes part in any decision. Status: pending medical approval.",
+    proposedNote: "Proposed by the technical team where the catalogue leaves priority to context. Needs the doctor’s confirmation.",
+    testsTitle: "Clinical validation tests", testsLead: "These tests run now in your browser, on the same rules engine the assessment uses.",
+    passed: "Pass", failed: "Fail", added: "Added follow-up question, needs medical approval"
+  }
+};
+
+// ---------------- state & helpers ----------------
+const S = { lang: "ar", view: "home", step: 0, a: {}, consent: false, id: "" };
+const t = k => T[S.lang][k];
+const L = o => o[S.lang];
+const $ = sel => document.querySelector(sel);
+const visibleQs = () => QUESTIONS.filter(q => !q.show || q.show(S.a));
+const labelFor = v => {
+  if (EXTRA_LABELS[v]) return L(EXTRA_LABELS[v]);
+  for (const q of QUESTIONS) { const o = q.o.find(x => x.v === v); if (o) return L(o); }
+  return v;
+};
+const listJoin = items => S.lang === "ar" ? items.join("، ") : items.join(", ");
+
+function setLang(l) {
+  S.lang = l; document.documentElement.lang = l; document.documentElement.dir = l === "ar" ? "rtl" : "ltr";
+  render();
+}
+function go(view) { S.view = view; render(); window.scrollTo(0, 0); const m = $("#main"); if (m) m.focus({ preventScroll: true }); }
+function newAssessment() { S.a = {}; S.step = 0; S.consent = false; history.replaceState(null, "", location.pathname + location.search); go("home"); }
+
+// ---------------- views ----------------
+function vHome() {
+  return `<section class="home">
+    <h1 class="brand-big">${S.lang === "ar" ? "رفيق" : "Rafiq"}</h1>
+    <p class="tagline">${t("tagline")}</p>
+    <p class="lead">${t("lead")}</p>
+    <ul class="facts">${t("facts").map(([a, b]) => `<li><strong>${a}</strong><span>${b}</span></li>`).join("")}</ul>
+    <div class="before"><h2>${t("notTitle")}</h2><ul>${t("nots").map(n => `<li>${n}</li>`).join("")}</ul></div>
+    <label class="consent"><input type="checkbox" id="consent" ${S.consent ? "checked" : ""}><span>${t("consent")}</span></label>
+    <button class="btn primary big" id="startBtn" ${S.consent ? "" : "disabled"}>${t("start")}</button>
+  </section>`;
+}
+
+function vQuestion() {
+  const qs = visibleQs(); const q = qs[S.step]; const cur = S.a[q.id];
+  const pct = Math.round((S.step / qs.length) * 100);
+  const other = S.lang === "ar" ? q.en : q.ar;
+  const opts = q.o.map(o => {
+    const sel = q.t === "multi" ? (cur || []).includes(o.v) : cur === o.v;
+    return `<button type="button" class="opt ${sel ? "on" : ""} ${o.ex ? "ex" : ""}" data-v="${o.v}" role="${q.t === "multi" ? "checkbox" : "radio"}" aria-checked="${sel}">
+      <span class="mark" aria-hidden="true"></span><span class="otext">${L(o)}</span></button>`;
+  }).join("");
+  const canNext = q.t === "multi" && (cur || []).length > 0;
+  return `<section class="q">
+    <div class="progress" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><div style="width:${pct}%"></div></div>
+    <div class="qmeta"><span>${L(SECTIONS[q.s])}</span><span>${S.step + 1} ${t("of")} ${qs.length}</span></div>
+    <h1 class="qtext">${L(q)}</h1>
+    <p class="qalt" lang="${S.lang === "ar" ? "en" : "ar"}" dir="${S.lang === "ar" ? "ltr" : "rtl"}">${other}</p>
+    ${q.added ? `<p class="added">${t("added")}</p>` : ""}
+    <p class="hint">${q.t === "multi" ? t("pickAll") : t("pickOne")}</p>
+    <div class="opts" role="${q.t === "multi" ? "group" : "radiogroup"}">${opts}</div>
+    <div class="nav">
+      ${q.t === "multi" ? `<button class="btn primary" id="nextBtn" ${canNext ? "" : "disabled"}>${t("next")}</button>` : ""}
+      <button class="btn ghost" id="backBtn">${t("back")}</button>
+    </div>
+  </section>`;
+}
+
+function vEmergency() {
+  const r = evaluate(S.a); const p0 = r.signals.filter(s => s.priority === "P0");
+  return `<section class="stop em" role="alert">
+    <h1>${t("emTitle")}</h1>
+    ${p0.map(s => `<p class="stopmsg">${L(RULES[s.rule_id])}</p>`).join("")}
+    <div class="call"><p>${t("emCall")}</p><div class="nums">${t("emNums").map(([c, n]) => `<a href="tel:${n}" class="num"><span>${c}</span><b>${n}</b></a>`).join("")}</div></div>
+    <p class="stopnote">${t("emNote")}</p>
+    <button class="btn ghost" id="restartBtn">${t("restart")}</button>
+  </section>`;
+}
+function vUrgent() {
+  return `<section class="stop ur" role="alert">
+    <h1>${t("urTitle")}</h1><p class="stopmsg">${L(RULES["CR-004"])}</p>
+    <div class="call"><p>${t("emCall")}</p><div class="nums">${t("emNums").map(([c, n]) => `<a href="tel:${n}" class="num"><span>${c}</span><b>${n}</b></a>`).join("")}</div></div>
+    <p class="stopnote">${t("urNote")}</p><button class="btn ghost" id="restartBtn">${t("restart")}</button>
+  </section>`;
+}
+function vIneligible() {
+  return `<section class="stop in"><h1>${t("inTitle")}</h1><p class="stopmsg">${L(RULES["CR-001"])}</p>
+    <button class="btn ghost" id="restartBtn">${t("restart")}</button></section>`;
+}
+
+function ladder(h) {
+  return `<div class="ladder" aria-label="${t("ladder")}"><h2>${t("ladder")}</h2><ol>
+    ${["P0", "P1", "P2", "P3", "P4"].map(p => `<li class="rung ${p} ${p === h ? "here" : ""}" ${p === h ? 'aria-current="true"' : ""}>
+      <span class="pcode">${p}</span><span class="pname">${t("levels")[p][0]}</span><span class="pdesc">${t("levels")[p][1]}</span>
+      ${p === h ? `<span class="you">${t("yourLevel")}</span>` : ""}</li>`).join("")}
+  </ol></div>`;
+}
+
+function vReport() {
+  const r = evaluate(S.a); const out = { assessment_id: S.id, ...r };
+  const h = r.highest_priority || "P4";
+  const date = new Date().toLocaleDateString(S.lang === "ar" ? "ar-SA-u-ca-gregory-nu-latn" : "en-GB", { year: "numeric", month: "long", day: "numeric" });
+  const cats = [...new Set(r.signals.map(s => L(RULES[s.rule_id].cat)))];
+  const cards = r.signals.map(s => `<article class="sig ${s.priority}">
+      <header><span class="chip ${s.priority}">${s.priority} ${t("levels")[s.priority][0]}</span><h3>${L(RULES[s.rule_id].cat)}</h3></header>
+      <p class="trig"><span>${t("basedOn")}:</span> ${listJoin(s.triggered_by.map(labelFor))}</p>
+      <p>${L(RULES[s.rule_id])}</p>
+      <p class="path"><span>${t("pathway")}:</span> ${L(PATHWAYS[s.care_pathway])}</p>
+      <p class="rid">${s.rule_id}</p>
+    </article>`).join("");
+  return `<section class="report" id="report">
+    <header class="rhead"><p class="rbrand">${S.lang === "ar" ? "رفيق" : "Rafiq"}</p><h1>${t("rTitle")}</h1>
+      <dl class="meta"><div><dt>${t("rDate")}</dt><dd>${date}</dd></div><div><dt>${t("rStatus")}</dt><dd>${t("rDone")}</dd></div>
+      <div><dt>${t("rVer")}</dt><dd>${r.clinical_rule_version}</dd></div><div><dt>${t("rId")}</dt><dd>${S.id}</dd></div></dl></header>
+    ${ladder(r.signals.length ? h : "P4")}
+    ${r.signals.length ? `<div class="sum"><p>${t("summaryA")}${listJoin(cats)}${t("summaryB")}</p>
+       <h2>${t("nextStep")}</h2><p>${PR[h] <= 2 ? t("nextP2") : t("nextP3")}</p></div>
+       <h2 class="sh">${t("signals")}</h2><div class="sigs">${cards}</div>`
+      : `<div class="sum"><p>${t("noSignal")}</p></div>`}
+    <dl class="fixed"><div><dt>${t("diag")}</dt><dd>${t("diagV")}</dd></div><div><dt>${t("score")}</dt><dd>${t("scoreV")}</dd></div></dl>
+    <div class="limits"><h2>${t("limits")}</h2><p>${t("limitsV")}</p></div>
+    <div class="ractions noprint"><button class="btn primary" id="printBtn">${t("print")}</button><button class="btn ghost" id="restartBtn">${t("restart")}</button></div>
+    <details class="tech noprint"><summary>${t("tech")}</summary><button class="btn small" id="copyBtn">${t("copy")}</button><pre dir="ltr">${JSON.stringify(out, null, 2)}</pre></details>
+  </section>`;
+}
+
+function vRules() {
+  const rows = Object.entries(RULES).map(([id, r]) => `<tr><td class="mono">${id}</td><td class="mono">${r.q}</td><td>${L(r.cat)}${PROPOSED.includes(id) ? ` <span class="prop" title="${t("proposedNote")}">*</span>` : ""}</td><td>${L(PATHWAYS[r.path])}</td><td>${L(r)}</td></tr>`).join("");
+  return `<section class="doc"><h1>${t("rulesTitle")}</h1><p class="lead">${t("rulesLead")}</p>
+    <div class="tw"><table><thead><tr><th>ID</th><th>Q</th><th>${S.lang === "ar" ? "الفئة" : "Category"}</th><th>${t("pathway")}</th><th>${S.lang === "ar" ? "الرسالة للمستخدم" : "User message"}</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <p class="small"><span class="prop">*</span> ${t("proposedNote")}</p></section>`;
+}
+function vTests() {
+  let pass = 0;
+  const rows = TESTS.map(([id, d, a, chk, exp]) => { let ok = false; try { ok = chk(evaluate(a)); } catch (e) { } if (ok) pass++;
+    return `<tr><td class="mono">${id}</td><td dir="ltr">${d}</td><td dir="ltr">${exp}</td><td><span class="res ${ok ? "ok" : "bad"}">${ok ? t("passed") : t("failed")}</span></td></tr>`; }).join("");
+  return `<section class="doc"><h1>${t("testsTitle")}</h1><p class="lead">${t("testsLead")}</p>
+    <p class="score"><b>${pass}/${TESTS.length}</b> ${t("passed")}</p>
+    <div class="tw"><table><thead><tr><th>ID</th><th>${S.lang === "ar" ? "الإجابات" : "Responses"}</th><th>${S.lang === "ar" ? "النتيجة المتوقعة" : "Expected"}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div></section>`;
+}
+
+// ---------------- render & events ----------------
+function render() {
+  const route = location.hash.replace("#", "");
+  const view = route === "rules" ? "rules" : route === "tests" ? "tests" : S.view;
+  const V = { home: vHome, q: vQuestion, emergency: vEmergency, urgent: vUrgent, ineligible: vIneligible, report: vReport, rules: vRules, tests: vTests }[view] || vHome;
+  $("#pilot").textContent = t("pilot");
+  $("#langBtn").textContent = t("lang");
+  $("#main").innerHTML = V();
+  $("#main").className = "v-" + view;
+  $("#foot").innerHTML = `<nav><a href="#">${t("footHome")}</a><a href="#rules">${t("footRules")}</a><a href="#tests">${t("footTests")}</a></nav><p>${t("footNote")}</p>`;
+  bind(view);
+}
+
+function answer(q, v) {
+  if (q.t === "multi") {
+    const o = q.o.find(x => x.v === v); let cur = [...(S.a[q.id] || [])];
+    if (cur.includes(v)) cur = cur.filter(x => x !== v);
+    else if (o.ex) cur = [v];
+    else cur = [...cur.filter(x => !q.o.find(y => y.v === x).ex), v];
+    S.a[q.id] = cur; render(); return;
+  }
+  S.a[q.id] = v; advance(q);
+}
+function advance(q) {
+  // clear answers of follow-ups that are no longer visible
+  QUESTIONS.forEach(x => { if (x.show && !x.show(S.a)) delete S.a[x.id]; });
+  if (q.s === 1) {
+    const r = evaluate(S.a);
+    if (r.status === "ineligible") return go("ineligible");
+    if (r.status === "stopped_emergency") return go("emergency");
+    if (r.status === "stopped_urgent") return go("urgent");
+  }
+  const qs = visibleQs();
+  if (S.step < qs.length - 1) { S.step++; go("q"); }
+  else { S.id = "RFQ-" + Math.random().toString(36).slice(2, 8).toUpperCase(); go("report"); }
+}
+
+function bind(view) {
+  if (view === "home") {
+    $("#consent").onchange = e => { S.consent = e.target.checked; $("#startBtn").disabled = !S.consent; };
+    $("#startBtn").onclick = () => { S.step = 0; S.a = {}; go("q"); };
+  }
+  if (view === "q") {
+    const q = visibleQs()[S.step];
+    document.querySelectorAll(".opt").forEach(b => b.onclick = () => answer(q, b.dataset.v));
+    const nb = $("#nextBtn"); if (nb) nb.onclick = () => advance(q);
+    $("#backBtn").onclick = () => { if (S.step === 0) go("home"); else { S.step--; go("q"); } };
+  }
+  const rb = $("#restartBtn"); if (rb) rb.onclick = newAssessment;
+  const pb = $("#printBtn"); if (pb) pb.onclick = () => { try { window.print(); } catch (e) { } };
+  const cb = $("#copyBtn"); if (cb) cb.onclick = async () => { try { await navigator.clipboard.writeText($(".tech pre").textContent); cb.textContent = "✓"; } catch (e) { cb.textContent = "—"; } };
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  $("#langBtn").onclick = () => setLang(S.lang === "ar" ? "en" : "ar");
+  window.addEventListener("hashchange", () => { if (!location.hash) S.view = S.view; render(); window.scrollTo(0, 0); });
+  render();
+});
+</script>
+</body>
+</html>
