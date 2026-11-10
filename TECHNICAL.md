@@ -20,7 +20,7 @@ It never diagnoses, never calculates a fertility score, and never tells a user t
 | Culturally trusted experience | Arabic-first, non-judgmental wording written by the clinical lead; no assumptions about family choices; “prefer not to answer” on every sensitive question; English toggle. |
 | Lower-friction assessment | No app install, no account, no name; works on any phone browser in ~5 minutes. |
 | Safe triage and referral | Strict priority hierarchy P0 > P1 > P2 > P3 > P4; emergency rules stop the questionnaire and cannot be overridden; all signals retained; clinical boundaries stated on every report. |
-| Privacy by design | Zero data collection: answers live only in browser memory and are erased on reload. No server, no database, no analytics, no cookies, no storage. Sharing is user-controlled (print/save). |
+| Privacy by design | Answers are never collected: they live only in browser memory and are erased on reload. No server, no database, no cookies, no storage. The only measurement is anonymous, cookie-free page-visit counting (GoatCounter), which never receives any answer. Sharing is user-controlled (print/save). |
 | Demonstrable value | 28 automated validation cases (20 from the clinical catalogue + 8 negative cases) run live in the browser at `#tests`; full rule catalogue visible at `#rules`. |
 
 ## Architecture
