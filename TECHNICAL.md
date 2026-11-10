@@ -20,8 +20,8 @@ It never diagnoses, never calculates a fertility score, and never tells a user t
 | Culturally trusted experience | Arabic-first, non-judgmental wording written by the clinical lead; no assumptions about family choices; “prefer not to answer” on every sensitive question; English toggle. |
 | Lower-friction assessment | No app install, no account, no name; works on any phone browser in ~5 minutes. |
 | Safe triage and referral | Strict priority hierarchy P0 > P1 > P2 > P3 > P4; emergency rules stop the questionnaire and cannot be overridden; all signals retained; clinical boundaries stated on every report. |
-| Privacy by design | Answers are never collected: they live only in browser memory and are erased on reload. No server, no database, no cookies, no storage. The only measurement is anonymous, cookie-free page-visit counting (GoatCounter), which never receives any answer. Sharing is user-controlled (print/save). |
-| Demonstrable value | 28 automated validation cases (20 from the clinical catalogue + 8 negative cases) run live in the browser at `#tests`; full rule catalogue visible at `#rules`. |
+| Privacy by design | Answers are never collected: they live only in browser memory and are erased on reload. No server, no database, no cookies, no storage. Measurement is limited to anonymous, cookie-free counting (GoatCounter): page visits, plus — only if the user ticks an optional opt-in box — three aggregate events (assessment started, completed, final care level P0–P4). No answer and no assessment ID is ever sent. Sharing is user-controlled (print/save). |
+| Demonstrable value | 28 automated validation cases (20 from the clinical catalogue + 8 negative cases) run live in the browser at `#tests`; full rule catalogue visible at `#rules`. Opt-in aggregate metrics (starts, completions, care-level distribution) give a first, privacy-preserving measure of real use. |
 
 ## Architecture
 - Single self-contained `index.html` (HTML + CSS + JS, no framework, no build step). Static hosting only.
@@ -42,7 +42,7 @@ It never diagnoses, never calculates a fertility score, and never tells a user t
 - Rules are a draft; no rule is approved for production until signed off by the medical lead (catalogue section 11).
 - Validated only against the 28 defined test cases; not yet tested with real users or real clinical data.
 - Self-reported answers; the tool cannot examine, test or verify.
-- No measurement of completion, referral completion or user trust yet — this requires a pilot with consented analytics, which the current privacy-first build deliberately omits.
+- Only opt-in aggregate counts of starts, completions and care levels are measured; referral completion and user trust are not measured yet and need a consented clinical pilot. Opt-in counts undercount real use.
 - Arabic text needs final language review.
 
 ## Roadmap after the challenge

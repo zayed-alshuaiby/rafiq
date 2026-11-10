@@ -95,6 +95,7 @@ h1,h2,h3{ line-height:1.35; margin:0; }
 .before ul{ margin:0; padding:0; list-style:none; display:grid; gap:8px; } .before li{ position:relative; padding-inline-start:22px; font-size:15.5px; }
 .before li::before{ content:""; position:absolute; inset-inline-start:2px; top:.72em; width:8px; height:8px; border-radius:50%; background:var(--mint); }
 .consent{ display:flex; gap:12px; align-items:flex-start; margin:0 0 16px; cursor:pointer; font-size:15.5px; background:var(--surface-2); border:1px solid var(--line); border-radius:var(--radius-m); padding:14px 16px; }
+.consent.opt-in{ background:transparent; border-style:dashed; font-size:14.5px; color:var(--muted); }
 .consent input{ width:22px; height:22px; margin-top:3px; accent-color:var(--pine-2); flex:none; }
 
 /* chat */
@@ -504,6 +505,7 @@ const T = {
     notTitle: "قبل أن تبدأ",
     nots: ["رفيق لا يشخّص أي مرض، ولا يعطيك نسبة خصوبة.", "إذا كان لديك ألم شديد ومفاجئ الآن، توجّه إلى الطوارئ مباشرة.", "النتيجة توجيه أولي، والقرار الطبي للطبيب."],
     consent: "فهمت أن رفيق أداة توعية وتوجيه، وليس تشخيصًا طبيًا.",
+    stats: "اختياري: أوافق على إرسال إحصائية مجهولة تساعد في تحسين رفيق. تُعدّ فقط ثلاثة أشياء: بدء التقييم، وإكماله، ومستوى الرعاية النهائي (P0 إلى P4). لا تُرسل أي إجابة ولا أي بيانات تعرّف بك.",
     start: "ابدأ التقييم", next: "التالي", back: "رجوع", pickAll: "اختر كل ما ينطبق", pickOne: "اختر إجابة واحدة",
     of: "من", restart: "ابدأ تقييمًا جديدًا", lang: "English",
     emTitle: "توجّه إلى أقرب قسم طوارئ الآن",
@@ -541,6 +543,7 @@ const T = {
     notTitle: "Before you start",
     nots: ["Rafiq doesn’t diagnose any condition or give a fertility score.", "If you have sudden severe pain right now, go straight to the emergency department.", "The result is initial guidance; medical decisions belong to your doctor."],
     consent: "I understand Rafiq is an awareness and navigation tool, not a medical diagnosis.",
+    stats: "Optional: I agree to send anonymous statistics that help improve Rafiq. Only three things are counted: starting the assessment, completing it, and the final level of care (P0 to P4). No answers and no identifying data are sent.",
     start: "Start the assessment", next: "Next", back: "Back", pickAll: "Choose all that apply", pickOne: "Choose one answer",
     of: "of", restart: "Start a new assessment", lang: "العربية",
     emTitle: "Go to the nearest emergency department now",
@@ -573,7 +576,7 @@ const T = {
 };
 
 // ---------------- state & helpers ----------------
-const S = { lang: "ar", view: "home", step: 0, a: {}, consent: false, id: "", anim: false, still: false };
+const S = { lang: "ar", view: "home", step: 0, a: {}, consent: false, stats: false, sent: {}, id: "", anim: false, still: false };
 const t = k => T[S.lang][k];
 const L = o => o[S.lang];
 const $ = sel => document.querySelector(sel);
@@ -590,7 +593,12 @@ function setLang(l) {
   render();
 }
 function go(view) { S.view = view; render(); window.scrollTo(0, 0); const m = $("#main"); if (m) m.focus({ preventScroll: true }); }
-function newAssessment() { S.a = {}; S.step = 0; S.consent = false; history.replaceState(null, "", location.pathname + location.search); go("home"); }
+function newAssessment() { S.a = {}; S.step = 0; S.consent = false; S.stats = false; S.sent = {}; history.replaceState(null, "", location.pathname + location.search); go("home"); }
+// Opt-in, aggregate-only event counting (GoatCounter). Sends an event name only: never answers, never an assessment ID.
+function track(name) {
+  if (!S.stats || S.sent[name]) return; S.sent[name] = true;
+  try { if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({ path: "rafiq-" + name, title: name, event: true }); } catch (e) { }
+}
 
 // ---------------- conversational copy (UI only, not used by the rules engine) ----------------
 Object.assign(T.ar, {
@@ -662,6 +670,7 @@ function vHome() {
     <ul class="facts fade d3">${t("facts").map(([a, b], i) => `<li><span class="ic">${ICONS[t("icons")[i]]}</span><strong>${a}</strong><span>${b}</span></li>`).join("")}</ul>
     <div class="before fade d3"><h2>${ICONS.shield}${t("notTitle")}</h2><ul>${t("nots").map(n => `<li>${n}</li>`).join("")}</ul></div>
     <label class="consent fade d4"><input type="checkbox" id="consent" ${S.consent ? "checked" : ""}><span>${t("consent")}</span></label>
+    <label class="consent opt-in fade d4"><input type="checkbox" id="stats" ${S.stats ? "checked" : ""}><span>${t("stats")}</span></label>
     <button class="btn primary big fade d4" id="startBtn" ${S.consent ? "" : "disabled"}>${t("start")}</button>
   </section>`;
 }
@@ -813,18 +822,23 @@ function advance(q) {
   if (q.s === 1) {
     const r = evaluate(S.a);
     if (r.status === "ineligible") return go("ineligible");
-    if (r.status === "stopped_emergency") return go("emergency");
-    if (r.status === "stopped_urgent") return go("urgent");
+    if (r.status === "stopped_emergency") { track("result-P0"); return go("emergency"); }
+    if (r.status === "stopped_urgent") { track("result-P1"); return go("urgent"); }
   }
   const qs = visibleQs();
   if (S.step < qs.length - 1) { S.step++; S.anim = true; go("q"); }
-  else { S.id = "RFQ-" + Math.random().toString(36).slice(2, 8).toUpperCase(); go("report"); }
+  else {
+    S.id = "RFQ-" + Math.random().toString(36).slice(2, 8).toUpperCase();
+    const r = evaluate(S.a); track("complete"); track("result-" + (r.signals.length ? r.highest_priority : "P4"));
+    go("report");
+  }
 }
 
 function bind(view) {
   if (view === "home") {
     $("#consent").onchange = e => { S.consent = e.target.checked; $("#startBtn").disabled = !S.consent; };
-    $("#startBtn").onclick = () => { S.step = 0; S.a = {}; S.anim = true; go("q"); };
+    $("#stats").onchange = e => { S.stats = e.target.checked; };
+    $("#startBtn").onclick = () => { S.step = 0; S.a = {}; S.sent = {}; S.anim = true; track("start"); go("q"); };
   }
   if (view === "q") {
     const q = visibleQs()[S.step];
