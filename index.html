@@ -346,7 +346,8 @@ function evaluate(a) {
   if (gonado.length) add("CR-009", gonado, "P2");
   if (q09.includes("long_term_meds")) add("CR-010", ["long_term_meds"], "P3");
 
-  if (a.Q10 && a.Q10 !== "none") add("CR-011", [a.Q10], "P3");
+  const q10 = (Array.isArray(a.Q10) ? a.Q10 : a.Q10 ? [a.Q10] : []).filter(v => v !== "none");
+  if (q10.length) add("CR-011", q10, "P3");
 
   const q12 = arr(a.Q12).filter(v => !["none", "prefer_not"].includes(v));
   const q11 = arr(a.Q11).filter(v => !["none", "dont_know"].includes(v));
@@ -444,9 +445,9 @@ const QUESTIONS = [
     O("chemotherapy", "العلاج الكيميائي", "Chemotherapy"), O("radiotherapy", "العلاج الإشعاعي", "Radiotherapy"),
     O("long_term_meds", "أدوية طويلة الأمد", "Long-term medication"), O("none", "لا شيء مما سبق", "None of the above", 1),
     O("dont_know", "لا أعلم", "I don’t know", 1), O("prefer_not", "أفضّل عدم الإجابة", "Prefer not to answer", 1)] },
-  { id: "Q10", s: 2, t: "single", ar: "هل تستخدم أيًا من منتجات التبغ أو التدخين؟", en: "Do you use any tobacco or smoking products?", o: [
+  { id: "Q10", s: 2, t: "multi", ar: "هل تستخدم أيًا من منتجات التبغ أو التدخين؟", en: "Do you use any tobacco or smoking products?", o: [
     O("cigarettes", "السجائر", "Cigarettes"), O("shisha", "الشيشة", "Waterpipe / shisha"), O("vaping", "السجائر الإلكترونية", "E-cigarettes / vaping"),
-    O("multiple", "أكثر من نوع", "More than one product"), O("none", "لا أستخدم", "I don’t use any")] },
+    O("none", "لا أستخدم", "I don’t use any", 1)] },
   { id: "Q11", s: 2, t: "multi", ar: "هل تتعرض في عملك أو بيئتك بصورة متكررة لأي مما يلي؟", en: "Are you regularly exposed to any of the following at work or in your environment?", o: [
     O("heat", "حرارة مهنية مرتفعة", "High occupational heat"), O("pesticides", "مبيدات أو مذيبات كيميائية", "Pesticides or chemical solvents"),
     O("heavy_metals", "معادن ثقيلة أو مواد سامة", "Heavy metals or toxic substances"), O("radiation", "إشعاع", "Radiation"),
@@ -459,10 +460,10 @@ const QUESTIONS = [
   { id: "Q13", s: 2, t: "multi", ar: "هل يوجد في عائلتك تاريخ مرضي معروف لأي مما يلي؟", en: "Is there a known family history of any of the following?", o: [
     O("testicular_cancer", "سرطان الخصية", "Testicular cancer"), O("inherited", "مرض وراثي معروف يؤثر على الجهاز التناسلي أو الهرمونات", "Known inherited reproductive or hormonal disorder"),
     O("none", "لا يوجد", "None", 1), O("dont_know", "لا أعلم", "I don’t know", 1), O("prefer_not", "أفضّل عدم الإجابة", "Prefer not to answer", 1)] },
-  { id: "Q06", s: 3, t: "single", ar: "ما الهدف من استخدامك لرفيق؟", en: "What is your main reason for using Rafiq?", o: [
+  { id: "Q06", s: 3, t: "multi", ar: "ما الهدف من استخدامك لرفيق؟", en: "What are your reasons for using Rafiq?", o: [
     O("awareness", "التوعية الوقائية", "Preventive awareness"), O("future", "الاستعداد للإنجاب مستقبلًا", "Preparing for future parenthood"),
     O("trying", "أحاول الإنجاب حاليًا", "Currently trying to conceive"), O("concern", "لدي قلق متعلق بالصحة الإنجابية", "I have a reproductive health concern"),
-    O("prefer_not", "لا أرغب في الإجابة", "Prefer not to answer")] },
+    O("prefer_not", "لا أرغب في الإجابة", "Prefer not to answer", 1)] },
   { id: "Q14", s: 3, t: "single", ar: "هل سبق أن حاولت الإنجاب دون حدوث حمل؟", en: "Have you ever tried to conceive without a pregnancy occurring?", o: [
     ...YN, O("na", "لا ينطبق", "Not applicable"), O("prefer_not", "أفضّل عدم الإجابة", "Prefer not to answer")] },
   { id: "Q14A", s: 3, t: "single", added: 1, show: a => a.Q14 === "yes", ar: "منذ متى وأنتما تحاولان الإنجاب؟", en: "For how long have you been trying to conceive?", o: [

@@ -114,7 +114,8 @@ function evaluate(a) {
   if (gonado.length) add("CR-009", gonado, "P2");
   if (q09.includes("long_term_meds")) add("CR-010", ["long_term_meds"], "P3");
 
-  if (a.Q10 && a.Q10 !== "none") add("CR-011", [a.Q10], "P3");
+  const q10 = (Array.isArray(a.Q10) ? a.Q10 : a.Q10 ? [a.Q10] : []).filter(v => v !== "none");
+  if (q10.length) add("CR-011", q10, "P3");
 
   const q12 = arr(a.Q12).filter(v => !["none", "prefer_not"].includes(v));
   const q11 = arr(a.Q11).filter(v => !["none", "dont_know"].includes(v));
